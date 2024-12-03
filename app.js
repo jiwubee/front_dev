@@ -88,9 +88,7 @@ searchInput.addEventListener("input", (e) => {
 
   clearTimeout(debounceTimeout);
   debounceTimeout = setTimeout(async () => {
-    if (!query) {
-      return displayPokemonList();
-    }
+    if (!query) return displayPokemonList();
 
     const pokemons = await fetchPokemonList();
     const filteredPokemons = pokemons.filter((pokemon) =>
@@ -98,33 +96,29 @@ searchInput.addEventListener("input", (e) => {
     );
 
     pokemonListElement.innerHTML = "";
+
     if (filteredPokemons.length === 0) {
-      const li = document.createElement("li");
-      li.textContent = "Nie znaleziono Pokémona o tej nazwie.";
-      pokemonListElement.appendChild(li);
+      pokemonListElement.insertAdjacentHTML(
+        "beforeend",
+        "<li>Nie znaleziono Pokémona o tej nazwie.</li>"
+      );
     } else {
       for (const pokemon of filteredPokemons) {
         const details = await fetchPokemonDetails(pokemon.name);
 
-        const li = document.createElement("li");
-        const card = document.createElement("div");
-        card.classList.add("pokemon-card");
+        const pokemonCard = `
+          <li>
+            <div class="pokemon-card">
+              <img src="${details.sprites.front_default}" alt="${details.name}">
+              <p>#${details.id} ${details.name}</p>
+            </div>
+          </li>
+        `;
 
-        const img = document.createElement("img");
-        img.src = details.sprites.front_default;
-        img.alt = details.name;
-
-        const nameP = document.createElement("p");
-        nameP.textContent = `#${details.id} ${details.name}`;
-
-        card.appendChild(img);
-        card.appendChild(nameP);
-        li.appendChild(card);
-        li.addEventListener("click", () => displayPokemonDetails(details));
-        pokemonListElement.appendChild(li);
+        pokemonListElement.insertAdjacentHTML("beforeend", pokemonCard);
       }
     }
   }, 500);
 });
 
-document.addEventListener("Searchpokemon", displayPokemonList);
+document.addEventListener("DOMContentLoaded", displayPokemonList);
