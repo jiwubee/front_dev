@@ -1,2 +1,2 @@
-# front_dev
-frontent development 2024
+# Frontend Development 2024
+Oliwia Wądołowska
