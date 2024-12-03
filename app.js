@@ -97,7 +97,7 @@ function showError(message) {
   alert(message);
 }
 
-searchInput.searchBar("input", async (e) => {
+searchInput.addEventListener("input", async (e) => {
   const query = e.target.value.trim().toLowerCase();
   if (!query) {
     displayPokemonList();
@@ -111,6 +111,6 @@ searchInput.searchBar("input", async (e) => {
   }
 });
 
-document.asearchBar("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
   displayPokemonList();
 });
